@@ -157,25 +157,27 @@ export class NgxPicaService {
     public compressImage(file: File, sizeInMB: number): Observable<File> {
         const compressedImage: Subject<File> = new Subject();
 
-        if (this.bytesToMB(file.size) <= sizeInMB) {
-            setTimeout(() => {
-                compressedImage.next(file);
-            });
-        } else {
+        const originCanvas: HTMLCanvasElement = document.createElement('canvas');
+        const ctx = originCanvas.getContext('2d');
+        const img = new Image();
 
-            const originCanvas: HTMLCanvasElement = document.createElement('canvas');
-            const ctx = originCanvas.getContext('2d');
-            const img = new Image();
+        if (ctx) {
+            img.onload = () => {
+                this._ngxPicaExifService.getExifOrientedImage(img).then(orientedImage => {
+                    window.URL.revokeObjectURL(img.src);
+                    originCanvas.width = orientedImage.width;
+                    originCanvas.height = orientedImage.height;
 
-            if (ctx) {
-                img.onload = () => {
-                    this._ngxPicaExifService.getExifOrientedImage(img).then(orientedImage => {
-                        window.URL.revokeObjectURL(img.src);
-                        originCanvas.width = orientedImage.width;
-                        originCanvas.height = orientedImage.height;
+                    ctx.drawImage(orientedImage, 0, 0);
 
-                        ctx.drawImage(orientedImage, 0, 0);
-
+                    if (this.bytesToMB(file.size) <= sizeInMB) {
+                        this.picaResizer.toBlob(originCanvas, file.type, 1)
+                            .catch((err) => compressedImage.error(err))
+                            .then((blob: Blob) => {
+                                const imgCompressed: File = this.blobToFile(blob, file.name, file.type, new Date().getTime());
+                                compressedImage.next(imgCompressed);
+                            });
+                    } else {
                         this.getCompressedImage(originCanvas, file.type, 1, sizeInMB, 0)
                             .catch((err) => compressedImage.error(err))
                             .then((blob: Blob) => {
@@ -183,13 +185,13 @@ export class NgxPicaService {
 
                                 compressedImage.next(imgCompressed);
                             });
-                    });
-                };
+                    }
+                });
+            };
 
-                img.src = window.URL.createObjectURL(file);
-            } else {
-                compressedImage.error(NgxPicaErrorType.CANVAS_CONTEXT_IDENTIFIER_NOT_SUPPORTED);
-            }
+            img.src = window.URL.createObjectURL(file);
+        } else {
+            compressedImage.error(NgxPicaErrorType.CANVAS_CONTEXT_IDENTIFIER_NOT_SUPPORTED);
         }
 
         return compressedImage.asObservable();
@@ -247,7 +249,11 @@ export class NgxPicaService {
     }
 
     private blobToFile(blob: Blob, name: string, type: string, lastModified: number): File {
-        return new File([blob], name, {type: type, lastModified: lastModified});
+        // return new File([blob], name, {type: type, lastModified: lastModified});
+        let file = new Blob([blob], {type : type}) as any;
+        file.name = name;
+        file.lastModifiedDate = lastModified;
+        return file as File
     }
 
     private bytesToMB(bytes: number) {
