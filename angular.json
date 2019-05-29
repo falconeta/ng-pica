@@ -130,7 +130,7 @@
         }
       }
     },
-    "ng7-pica": {
+    "ng-pica": {
       "root": "projects/ngx-pica",
       "sourceRoot": "projects/ngx-pica/src",
       "projectType": "library",

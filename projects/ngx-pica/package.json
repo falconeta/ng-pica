@@ -1,6 +1,6 @@
 {
-  "name": "ng7-pica",
-  "version": "3.0.0",
+  "name": "ng-pica",
+  "version": "8.0.0",
   "description": "Angular module to resize images files in browser",
   "license": "MIT",
   "keywords": [
@@ -15,10 +15,10 @@
     "compress"
   ],
   "peerDependencies": {
-    "@angular/common": "^7.1.0",
-    "@angular/core": "^7.1.0",
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
     "pica": "^5.0.0",
     "exif-js": "^2.3.0"
   },
-  "repository": "https://github.com/wynfred/ng7-pica"
+  "repository": "https://github.com/wynfred/ng-pica"
 }
