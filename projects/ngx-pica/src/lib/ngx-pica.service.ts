@@ -170,22 +170,22 @@ export class NgxPicaService {
 
                     ctx.drawImage(orientedImage, 0, 0);
 
-                    if (this.bytesToMB(file.size) <= sizeInMB) {
-                        this.picaResizer.toBlob(originCanvas, file.type, 1)
-                            .catch((err) => compressedImage.error(err))
-                            .then((blob: Blob) => {
+                    this.picaResizer.toBlob(originCanvas, file.type, 1)
+                        .catch((err) => compressedImage.error(err))
+                        .then((blob: Blob) => {
+                            if (this.bytesToMB(blob.size) <= sizeInMB) {
                                 const imgCompressed: File = this.blobToFile(blob, file.name, file.type, new Date().getTime());
                                 compressedImage.next(imgCompressed);
-                            });
-                    } else {
-                        this.getCompressedImage(originCanvas, file.type, 1, sizeInMB, 0)
-                            .catch((err) => compressedImage.error(err))
-                            .then((blob: Blob) => {
-                                const imgCompressed: File = this.blobToFile(blob, file.name, file.type, new Date().getTime());
+                            } else {
+                                this.getCompressedImage(originCanvas, file.type, 1, sizeInMB, 0)
+                                    .catch((err) => compressedImage.error(err))
+                                    .then((blob: Blob) => {
+                                        const imgCompressed: File = this.blobToFile(blob, file.name, file.type, new Date().getTime());
 
-                                compressedImage.next(imgCompressed);
-                            });
-                    }
+                                        compressedImage.next(imgCompressed);
+                                    });
+                            }
+                        });
                 });
             };
 

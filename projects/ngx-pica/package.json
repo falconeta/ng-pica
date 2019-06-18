@@ -1,6 +1,6 @@
 {
   "name": "ng-pica",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "Angular module to resize images files in browser",
   "license": "MIT",
   "keywords": [

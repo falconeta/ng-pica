@@ -1,17 +1,17 @@
-# ng7-pica
-> ng7-pica is an Angular 6 module to resize images files in browser using <a href="https://github.com/nodeca/pica">pica - high quality image resize in browser</a>.
+# ng-pica
+> ng-pica is an Angular 6 module to resize images files in browser using <a href="https://github.com/nodeca/pica">pica - high quality image resize in browser</a>.
 
 ## Install
-1. Add `ng7-pica` module as dependency to your project.
+1. Add `ng-pica` module as dependency to your project.
 ```bash
-$ npm install ng7-pica --save
+$ npm install ng-pica --save
 ```
 2. Include `NgxPicaModule` into your main AppModule or in module where you will use it.
 ```
 // app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxPicaModule } from 'ng7-pica';
+import { NgxPicaModule } from 'ng-pica';
 
 @NgModule({
   imports: [
@@ -101,7 +101,7 @@ export interface NgxPicaErrorInterface {
 
 ```ts
 import { Component, EventEmitter } from '@angular/core';
-import { NgxPicaService } from 'ng7-pica';
+import { NgxPicaService } from 'ng-pica';
 
 @Component({
   selector: 'app-home',
