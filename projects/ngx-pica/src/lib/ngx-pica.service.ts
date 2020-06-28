@@ -13,7 +13,7 @@ export class NgxPicaService {
     private picaResizer = new Pica();
     private MAX_STEPS = 20;
 
-    constructor(private _ngxPicaExifService: NgxPicaExifService) {
+    constructor(private ngxPicaExifService: NgxPicaExifService) {
         if (!this.picaResizer || !this.picaResizer.resize) {
             this.picaResizer = new window.Pica();
         }
@@ -41,8 +41,8 @@ export class NgxPicaService {
                     }
                 }, (err) => {
                     const ngxPicaError: NgxPicaErrorInterface = {
-                        file: file,
-                        err: err
+                        file,
+                        err
                     };
 
                     resizedImage.error(ngxPicaError);
@@ -70,7 +70,7 @@ export class NgxPicaService {
 
         if (ctx) {
             img.onload = () => {
-                this._ngxPicaExifService.getExifOrientedImage(img).then(orientedImage => {
+                this.ngxPicaExifService.getExifOrientedImage(img).then(orientedImage => {
                     window.URL.revokeObjectURL(img.src);
                     originCanvas.width = orientedImage.width;
                     originCanvas.height = orientedImage.height;
@@ -133,8 +133,8 @@ export class NgxPicaService {
                     }
                 }, (err) => {
                     const ngxPicaError: NgxPicaErrorInterface = {
-                        file: file,
-                        err: err
+                        file,
+                        err
                     };
 
                     compressedImage.error(ngxPicaError);
@@ -163,7 +163,7 @@ export class NgxPicaService {
 
         if (ctx) {
             img.onload = () => {
-                this._ngxPicaExifService.getExifOrientedImage(img).then(orientedImage => {
+                this.ngxPicaExifService.getExifOrientedImage(img).then(orientedImage => {
                     window.URL.revokeObjectURL(img.src);
                     originCanvas.width = orientedImage.width;
                     originCanvas.height = orientedImage.height;
@@ -220,7 +220,7 @@ export class NgxPicaService {
         step: number
     ): Promise<Blob> {
         return new Promise<Blob>((resolve,
-            reject) => {
+                                  reject) => {
 
             if (step > this.MAX_STEPS) {
                 reject(NgxPicaErrorType.NOT_BE_ABLE_TO_COMPRESS_ENOUGH);
@@ -250,10 +250,10 @@ export class NgxPicaService {
 
     private blobToFile(blob: Blob, name: string, type: string, lastModified: number): File {
         // return new File([blob], name, {type: type, lastModified: lastModified});
-        let file = new Blob([blob], {type : type}) as any;
+        const file = new Blob([blob], {type}) as any;
         file.name = name;
         file.lastModifiedDate = lastModified;
-        return file as File
+        return file as File;
     }
 
     private bytesToMB(bytes: number) {

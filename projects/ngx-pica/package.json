@@ -1,24 +1,13 @@
 {
-  "name": "ng-pica",
-  "version": "8.0.1",
-  "description": "Angular module to resize images files in browser",
-  "license": "MIT",
-  "keywords": [
-    "angular",
-    "pica",
-    "ng",
-    "ngx",
-    "rotate",
-    "exif-js",
-    "image",
-    "resize",
-    "compress"
-  ],
+  "name": "ngx-pica-wrapper",
+  "version": "10.0.0",
   "peerDependencies": {
-    "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "pica": "^5.0.0",
+    "@angular/common": "^10.0.0",
+    "@angular/core": "^10.0.0",
+    "pica": "^6.0.0",
     "exif-js": "^2.3.0"
   },
-  "repository": "https://github.com/wynfred/ng-pica"
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
 }
