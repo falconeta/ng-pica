@@ -1,5 +1,5 @@
 # ng-pica
-> ng-pica is an Angular 6 module to resize images files in browser using <a href="https://github.com/nodeca/pica">pica - high quality image resize in browser</a>.
+> ng-pica is an Angular 10 module to resize images files in browser using <a href="https://github.com/nodeca/pica">pica - high quality image resize in browser</a>.
 
 ## Install
 1. Add `ng-pica` module as dependency to your project.
